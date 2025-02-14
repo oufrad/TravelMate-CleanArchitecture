@@ -5,6 +5,8 @@ using TravelMate.Application.Features.Users.Commands.GetAllUsers;
 using TravelMate.Application.Features.Users.Commands.GetUserById;
 using TravelMate.Application.Features.Users.Queries.AddUser;
 
+using UserRole = TravelMate.Domain.User.UserRole;
+
 namespace TravelMate.Api.Controllers;
 
 [ApiController]
@@ -34,7 +36,13 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<UserResponseDto>> AddUser(SimplifiedUserDto user)
     {
-        var addUserQuery = new AddUserCommand(ProfilePicture : user.ProfilePicture, Rating : user.Rating, UserName : user.UserName);
+        if (!UserRole.TryFromName(user.role.ToString(), out UserRole role)) 
+        {
+            return Problem(
+                detail : "Invalid Role Type"
+                );
+        }
+        var addUserQuery = new AddUserCommand(user.name, user.UserName, user.email, user.Rating, role);
         var resultUser = await _mediator.Send(addUserQuery);
         return Ok(resultUser);
     }

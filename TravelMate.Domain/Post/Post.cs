@@ -1,4 +1,4 @@
-﻿namespace TravelMate.Domain.Entities;
+﻿namespace TravelMate.Domain.Post;
 
 public class Post
 {

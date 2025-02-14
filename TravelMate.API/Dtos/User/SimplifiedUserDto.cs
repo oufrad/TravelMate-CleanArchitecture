@@ -1,4 +1,4 @@
 ﻿namespace TravelMate.Api.Dtos.User
 {
-    public record SimplifiedUserDto(int Id, string UserName, string? ProfilePicture, float Rating);
+    public record SimplifiedUserDto(string name, string UserName, string email, float Rating, UserRole role);
 }

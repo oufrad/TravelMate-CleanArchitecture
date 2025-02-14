@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TravelMate.Domain.Entities;
+using System.Reflection;
+using TravelMate.Domain.User;
 
 namespace TravelMate.Infrastructure.Persistence;
 
@@ -9,16 +10,11 @@ public class TravelMateDbContext: DbContext
 
     public TravelMateDbContext(DbContextOptions options): base(options)
     {
-        {
-            try
-            {
-                Database.EnsureCreated();  // This will help us verify if we can actually connect
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Database connection error: {ex.Message}");
-                throw;
-            }
-        }
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        base.OnModelCreating(modelBuilder);
     }
 }

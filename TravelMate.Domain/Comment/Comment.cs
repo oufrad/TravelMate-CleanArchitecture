@@ -1,4 +1,4 @@
-﻿namespace TravelMate.Domain.Entities;
+﻿namespace TravelMate.Domain.Comment;
 
 public class Comment
 {
@@ -7,7 +7,7 @@ public class Comment
     public DateTime CommentedOn { get; set; } = DateTime.Now;
 
     public int PostId { get; set; }
-    public Post Post { get; set; } = null!;
+    //public Post Post { get; set; } = null!;
 
     //public int UserId { get; set; }
     //public User User { get; set; } = null!;

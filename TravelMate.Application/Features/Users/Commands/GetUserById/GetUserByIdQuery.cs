@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using TravelMate.Domain.Entities;
+using TravelMate.Domain.User;
 
 namespace TravelMate.Application.Features.Users.Commands.GetUserById;
 

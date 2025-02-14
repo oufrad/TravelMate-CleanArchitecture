@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TravelMate.Application.Common.Interfaces;
-using TravelMate.Domain.Entities;
+using TravelMate.Domain.User;
 
 namespace TravelMate.Infrastructure.Persistence.Repositories;
 
