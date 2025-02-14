@@ -18,6 +18,17 @@ public class UserRepository : IUserRepository
         return result.Entity;
     }
 
+    public async Task<User> DeleteUserAsync(int id)
+    {
+        var user = await _context.Users.FindAsync(id);
+        if (user == null)
+            throw new KeyNotFoundException($"User with ID {id} not found");
+
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
+        return user;
+    }
+
     public async Task<List<User>> GetAllUsers()
     {
         return await _context.Users.ToListAsync();
@@ -27,5 +38,12 @@ public class UserRepository : IUserRepository
     {
         return await _context.Users.FindAsync(id);
 
+    }
+
+    public async Task<User> UpdateUserAsync(User user)
+    {
+        _context.Entry(user).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+        return user;
     }
 }

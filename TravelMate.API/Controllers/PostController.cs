@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using TravelMate.Api.Dtos.Post;
 
 namespace TravelMate.Api.Controllers;
@@ -7,39 +8,41 @@ namespace TravelMate.Api.Controllers;
 [ApiController]
 public class PostController : ControllerBase
 {
-    public PostController()
+    private readonly ISender _mediator;
+    public PostController(ISender mediator)
     {
+        _mediator = mediator;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllPosts()
+    public async Task<ActionResult<List<PostResponseDto>>> GetAllPosts()
     {
         return Ok();
     }
 
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetOnePostById([FromRoute] int id)
+    public async Task<ActionResult<PostResponseDto>> GetOnePostById([FromRoute] int id)
     {
         return Ok();
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddPost([FromBody] CreatePostDto createPostDto)
+    public async Task<ActionResult<PostResponseDto>> AddPost([FromBody] CreatePostDto createPostDto)
     {
         return Ok();
     }
 
     [HttpPut]
     [Route("{id}")]
-    public async Task<IActionResult> UpdatePost([FromRoute] int id, [FromBody] UpdatePostDto updatePostDto)
+    public async Task<ActionResult<PostResponseDto>> UpdatePost([FromRoute] int id, [FromBody] UpdatePostDto updatePostDto)
     {
         return Ok();
     }
 
     [HttpDelete]
     [Route("{id}")]
-    public async Task<IActionResult> DeletePost([FromRoute] int id)
+    public async Task<ActionResult> DeletePost([FromRoute] int id)
     {
         return NoContent();
     }

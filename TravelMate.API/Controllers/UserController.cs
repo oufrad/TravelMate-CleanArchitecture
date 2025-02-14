@@ -4,7 +4,8 @@ using TravelMate.Api.Dtos.User;
 using TravelMate.Application.Features.Users.Commands.GetAllUsers;
 using TravelMate.Application.Features.Users.Commands.GetUserById;
 using TravelMate.Application.Features.Users.Queries.AddUser;
-
+using TravelMate.Application.Features.Users.Queries.DeleteUserQuery;
+using TravelMate.Application.Features.Users.Queries.UpdateUserQuery;
 using UserRole = TravelMate.Domain.User.UserRole;
 
 namespace TravelMate.Api.Controllers;
@@ -18,10 +19,11 @@ public class UserController : ControllerBase
     {
         _mediator = mediator;
     }
+
     [HttpGet]
     public async Task<ActionResult<List<UserResponseDto>>> GetAllUsers()
     {
-        var users = await _mediator.Send(new GetAllUsersQuery());
+        var users = await _mediator.Send(new GetAllUsersCommand());
         //TODO: Map the Users into UserResponseDtos
         return Ok(users);
     }
@@ -42,8 +44,22 @@ public class UserController : ControllerBase
                 detail : "Invalid Role Type"
                 );
         }
-        var addUserQuery = new AddUserCommand(user.name, user.UserName, user.email, user.Rating, role);
+        var addUserQuery = new AddUserQuery(user.name, user.UserName, user.email, user.Rating, role);
         var resultUser = await _mediator.Send(addUserQuery);
         return Ok(resultUser);
+    }
+
+    [HttpPut]
+    public async Task<ActionResult<UserResponseDto>> UpdateUser(UpdateUserDto user)
+    {
+        var updatedUser = await _mediator.Send(new UpdateUserQuery(Id: user.Id, name: user.name, UserName: user.UserName, email: user.email, bio: user.bio ));
+        return Ok(updatedUser);
+    }
+
+    [HttpDelete]
+    public async Task<ActionResult<UserResponseDto>> DeleteUser(string Id)
+    {
+        var deletedUser = await _mediator.Send(new DeleteUserQuery(Id: Id));
+        return Ok(deletedUser);
     }
 }

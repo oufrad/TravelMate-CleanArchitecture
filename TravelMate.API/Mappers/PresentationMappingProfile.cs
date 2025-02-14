@@ -9,6 +9,6 @@ public class PresentationMappingProfile: Profile
     public PresentationMappingProfile()
     {
         // Presentation -> Application mappings
-        CreateMap<SimplifiedUserDto, AddUserCommand>();
+        CreateMap<SimplifiedUserDto, AddUserQuery>();
     }
 }

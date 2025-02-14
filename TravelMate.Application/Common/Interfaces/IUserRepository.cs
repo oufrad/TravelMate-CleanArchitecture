@@ -13,4 +13,6 @@ public interface IUserRepository
     Task<List<User>> GetAllUsers();
     Task<User> GetById(int id);
     Task<User> AddUser(User user);
+    Task<User> DeleteUserAsync(int id);
+    Task<User> UpdateUserAsync(User user);
 }

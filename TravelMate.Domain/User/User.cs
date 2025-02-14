@@ -28,6 +28,29 @@ public class User
         Status = UserStatus.Active;
     }
 
+    public void UpdateProfile(string name, string? bio)
+    {
+        Name = name;
+        Bio = bio ?? Bio;  // Only update if new value provided
+    }
+
+    public void UpdateEmail(string newEmail)
+    {
+        if (string.IsNullOrEmpty(newEmail))
+            throw new Exception("Email cannot be empty");
+
+        // Add email validation logic here
+        Email = newEmail;
+    }
+
+    public void UpdateUsername(string newUsername)
+    {
+        if (string.IsNullOrEmpty(newUsername))
+            throw new Exception("Username cannot be empty");
+
+        UserName = newUsername;
+    }
+
     private User()
     {
 
