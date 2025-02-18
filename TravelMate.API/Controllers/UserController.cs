@@ -7,6 +7,7 @@ using TravelMate.Application.Features.Users.Queries.AddUser;
 using TravelMate.Application.Features.Users.Queries.DeleteUserQuery;
 using TravelMate.Application.Features.Users.Queries.UpdateUserQuery;
 using UserRole = TravelMate.Domain.User.UserRole;
+using UserStatus = TravelMate.Domain.User.UserStatus;
 
 namespace TravelMate.Api.Controllers;
 
@@ -44,7 +45,7 @@ public class UserController : ControllerBase
                 detail : "Invalid Role Type"
                 );
         }
-        var addUserQuery = new AddUserQuery(user.name, user.UserName, user.email, user.Rating, role);
+        var addUserQuery = new AddUserQuery(user.name, user.email, role);
         var resultUser = await _mediator.Send(addUserQuery);
         return Ok(resultUser);
     }
@@ -52,12 +53,24 @@ public class UserController : ControllerBase
     [HttpPut]
     public async Task<ActionResult<UserResponseDto>> UpdateUser(UpdateUserDto user)
     {
-        var updatedUser = await _mediator.Send(new UpdateUserQuery(Id: user.Id, name: user.name, UserName: user.UserName, email: user.email, bio: user.bio ));
+        if (!UserStatus.TryFromName(user.status.ToString(), out UserStatus status))
+        {
+            return Problem(
+                detail: "Invalid Status Type"
+                );
+        }
+        if (!UserRole.TryFromName(user.role.ToString(), out UserRole role))
+        {
+            return Problem(
+                detail: "Invalid Role Type"
+                );
+        }
+        var updatedUser = await _mediator.Send(new UpdateUserQuery(Id: user.Id, name: user.name, email: user.email, role: role, status: status));
         return Ok(updatedUser);
     }
 
-    [HttpDelete]
-    public async Task<ActionResult<UserResponseDto>> DeleteUser(int Id)
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<UserResponseDto>> DeleteUser([FromRoute] int Id)
     {
         var deletedUser = await _mediator.Send(new DeleteUserQuery(Id: Id));
         return Ok(deletedUser);

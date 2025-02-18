@@ -14,7 +14,7 @@ public class AddUserQueryHandler : IRequestHandler<AddUserQuery, User>
     }
     public async Task<User> Handle(AddUserQuery request, CancellationToken cancellationToken)
     {
-        User user = new User(request.name, request.email, request.UserName, request.Rating, request.role);
+        User user = new User(request.name, request.email, request.role);
         User resutUser = await _userRepository.AddUser(user);
         return resutUser;
     }

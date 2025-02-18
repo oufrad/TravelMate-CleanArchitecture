@@ -1,4 +1,4 @@
 ﻿namespace TravelMate.Api.Dtos.User;
 
-public record UpdateUserDto(int Id, string name, string UserName, string email, string bio);
+public record UpdateUserDto(int Id, string name, string email, UserRole role, UserStatus status);
 

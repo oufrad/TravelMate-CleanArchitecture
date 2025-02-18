@@ -26,7 +26,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired();
 
         builder.Property(u => u.Rating)
-            .HasDefaultValue(0);
+            .HasDefaultValue(0f);
 
         builder.Property(u => u.Role)
             .HasConversion(
@@ -35,7 +35,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             );
 
         builder.Property(u => u.Status)
-            .HasConversion<string>()
-            .HasDefaultValue(UserStatus.Active);
+            .HasConversion(
+                userStatus => userStatus.Value,
+                value => UserStatus.FromValue(value)
+            );
     }
 }

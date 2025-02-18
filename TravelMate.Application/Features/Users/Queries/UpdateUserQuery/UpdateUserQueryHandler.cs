@@ -14,9 +14,10 @@ namespace TravelMate.Application.Features.Users.Queries.UpdateUserQuery
         public async Task<User> Handle(UpdateUserQuery request, CancellationToken cancellationToken)
         {
             User user = await _userRepository.GetById(request.Id);
-            user.UpdateProfile(request.name, request.bio);
-            user.UpdateUsername(request.UserName);
             user.UpdateEmail(request.email);
+            user.UpdateName(request.name);
+            user.UpdateRole(request.role);
+            user.UpdateStatus(request.status);
             return await _userRepository.UpdateUserAsync(user);
         }
     }
